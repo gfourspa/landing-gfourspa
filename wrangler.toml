@@ -4,6 +4,9 @@
 name = "landing-gfourspa"
 compatibility_date = "2024-01-01"
 
+# Configuración de Pages
+pages_build_output_dir = "dist"
+
 # Variables de entorno para desarrollo local
 [vars]
 NODE_ENV = "development"
