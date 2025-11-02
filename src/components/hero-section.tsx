@@ -51,20 +51,6 @@ export function HeroSection() {
                 className="w-full h-auto rounded-2xl shadow-2xl"
               />
             </div>
-
-            {/* Floating icons 
-            <div className="absolute -top-4 -left-4 w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center animate-bounce">
-              <Code className="w-8 h-8 text-primary-600" />
-            </div>
-            <div className="absolute top-1/4 -right-4 w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center animate-pulse">
-              <Cloud className="w-7 h-7 text-blue-600" />
-            </div>
-            <div className="absolute bottom-1/4 -left-6 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center animate-bounce delay-300">
-              <Database className="w-6 h-6 text-green-600" />
-            </div>
-            <div className="absolute -bottom-4 right-1/4 w-14 h-14 bg-purple-100 rounded-full flex items-center justify-center animate-pulse delay-150">
-              <Smartphone className="w-7 h-7 text-purple-600" />
-            </div>*/}
           </div>
         </div>
       </div>

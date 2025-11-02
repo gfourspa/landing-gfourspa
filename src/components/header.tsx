@@ -2,6 +2,7 @@
 
 import { Code, Menu, X } from "lucide-react"
 import { useState } from "react"
+import { HEADER_LINKS } from "src/lib/constant"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -18,20 +19,16 @@ export function Header() {
           </div>
 
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#inicio" className="text-muted-foreground hover:text-primary transition-colors font-medium">
-              Inicio
-            </a>
-            <a href="#servicios" className="text-muted-foreground hover:text-primary transition-colors font-medium">
-              Servicios
-            </a>
-            <a href="#nosotros" className="text-muted-foreground hover:text-primary transition-colors font-medium">
-              Nosotros
-            </a>
-            <a href="#contacto" className="text-muted-foreground hover:text-primary transition-colors font-medium">
-              Contacto
-            </a>
+            {HEADER_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-muted-foreground hover:text-primary transition-colors font-medium"
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
-
           <button className="md:hidden p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -40,18 +37,15 @@ export function Header() {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t">
             <nav className="flex flex-col space-y-4">
-              <a href="#inicio" className="text-muted-foreground hover:text-primary transition-colors font-medium">
-                Inicio
+              {HEADER_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-muted-foreground hover:text-primary transition-colors font-medium"
+              >
+                {link.label}
               </a>
-              <a href="#servicios" className="text-muted-foreground hover:text-primary transition-colors font-medium">
-                Servicios
-              </a>
-              <a href="#nosotros" className="text-muted-foreground hover:text-primary transition-colors font-medium">
-                Nosotros
-              </a>
-              <a href="#contacto" className="text-muted-foreground hover:text-primary transition-colors font-medium">
-                Contacto
-              </a>
+            ))}
             </nav>
           </div>
         )}

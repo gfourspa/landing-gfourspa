@@ -1,4 +1,5 @@
 import { Code, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
+import { CONTACT_INFO } from "src/lib/constant"
 
 export function Footer() {
   return (
@@ -67,15 +68,15 @@ export function Footer() {
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-400">contacto@gfourspa.cl</span>
+                <span className="text-gray-400">{CONTACT_INFO.email}</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-400">+56 9 61177808</span>
+                <span className="text-gray-400">{CONTACT_INFO.phone}</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-400">Quilpué, Valparaíso, Chile</span>
+                <span className="text-gray-400">{CONTACT_INFO.address}</span>
               </div>
             </div>
           </div>
