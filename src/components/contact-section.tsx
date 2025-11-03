@@ -1,6 +1,6 @@
+import { SERVICE_OPTIONS_FORM } from "@/lib/constant"
 import { Mail, MapPin, Send } from "lucide-react"
 import { FormEvent, useState } from "react"
-import { SERVICE_OPTIONS_FORM } from "src/lib/constant"
 
 interface FormData {
   name: string

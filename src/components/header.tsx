@@ -1,8 +1,8 @@
 "use client"
 
+import { HEADER_LINKS } from "@/lib/constant"
 import { Code, Menu, X } from "lucide-react"
 import { useState } from "react"
-import { HEADER_LINKS } from "src/lib/constant"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)

@@ -1,5 +1,5 @@
+import { CONTACT_INFO } from "@/lib/constant"
 import { Code, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
-import { CONTACT_INFO } from "src/lib/constant"
 
 export function Footer() {
   return (
