@@ -1,5 +1,5 @@
 import { CONTACT_INFO } from "@/lib/constant"
-import { Code, Github, Linkedin, Mail, MapPin, Phone } from "lucide-react"
+import { Code, Github, Linkedin, Mail, MapPin } from "lucide-react"
 
 export function Footer() {
   return (
@@ -69,10 +69,6 @@ export function Footer() {
               <div className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-primary-400" />
                 <span className="text-gray-400">{CONTACT_INFO.email}</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-primary-400" />
-                <span className="text-gray-400">{CONTACT_INFO.phone}</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="w-5 h-5 text-primary-400" />
