@@ -10,3 +10,4 @@ pages_build_output_dir = "dist"
 # Variables de entorno para desarrollo local
 [vars]
 NODE_ENV = "development"
+ZOHO_EMAIL_TO = "contacto@gfourspa.cl"
