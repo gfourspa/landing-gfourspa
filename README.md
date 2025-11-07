@@ -14,11 +14,11 @@ Landing page para GFOUR SPA con formulario de contacto funcional que envía emai
 
 - **Frontend**: React + TypeScript + Vite
 
-- **Frontend**: React 18 + TypeScript + Vite- **Estilos**: Tailwind CSS
+- **Frontend**: React 18 + TypeScript + Vite
 
-- **Estilos**: Tailwind CSS + tailwindcss-animate- **Email**: MailChannels (gratuito para Cloudflare Pages)
+- **Estilos**: Tailwind CSS + tailwindcss-animate-
 
-- **Iconos**: Lucide React- **Hosting**: Cloudflare Pages
+- **Iconos**: Lucide React
 
 - **Email**: MailChannels API (gratuito para Cloudflare Pages)
 

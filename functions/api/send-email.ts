@@ -11,7 +11,7 @@ interface ContactFormData {
 }
 
 interface Env {
-  ZOHO_EMAIL_TO?: string
+  CONTACT_EMAIL?: string  // Email donde recibirás los mensajes
   NODE_ENV?: string
 }
 
@@ -83,7 +83,8 @@ export async function onRequestPost(context: {
     const sanitizedService = service ? sanitize(service) : 'No especificado'
     const sanitizedMessage = sanitize(message).replace(/\n/g, '<br>')
 
-    const recipientEmail = context.env.ZOHO_EMAIL_TO || 'contacto@gfourspa.cl'
+    // Email de destino (tu correo personal)
+    const recipientEmail = context.env.CONTACT_EMAIL || 'mgutierrezm@gfourspa.cl'
 
     const htmlContent = `<!DOCTYPE html>
 <html lang="es">
@@ -235,7 +236,8 @@ Este mensaje fue enviado desde el formulario de contacto de gfourspa.cl
 Fecha: ${new Date().toLocaleString('es-CL', { timeZone: 'America/Santiago' })}`
 
     // Usar MailChannels API (gratuito para Cloudflare Workers/Pages)
-    // https://api.mailchannels.net/tx/v1/documentation
+    // Requiere SPF configurado: v=spf1 include:relay.mailchannels.net ~all
+    // https://mailchannels.zendesk.com/hc/en-us/articles/4565898358413
     const emailPayload = {
       personalizations: [
         {

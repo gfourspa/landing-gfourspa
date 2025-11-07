@@ -39,7 +39,6 @@ El formulario de contacto te permite:
 Si prefieres contactarnos directamente:
 
 - **📧 Email**: contacto@gfourspa.cl
-- **📱 Teléfono**: +56 9 61177808
 - **📍 Ubicación**: Quilpué, Valparaíso, Chile
 
 ## 🎨 Características del Sitio
@@ -65,7 +64,6 @@ Transformar ideas en soluciones tecnológicas innovadoras que impulsan el crecim
 Si tienes alguna pregunta sobre el sitio web o nuestros servicios:
 1. Usa el formulario de contacto en el sitio
 2. Envía un correo a: contacto@gfourspa.cl
-3. Llama al: +56 9 61177808
 
 ---
 
