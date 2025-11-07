@@ -12,7 +12,6 @@ interface ContactFormData {
 
 interface Env {
   CONTACT_EMAIL?: string  // Email donde recibirás los mensajes
-  DKIM_PRIVATE_KEY?: string  // Clave privada DKIM (opcional, para mejor deliverability)
   NODE_ENV?: string
 }
 
@@ -244,10 +243,7 @@ Fecha: ${new Date().toLocaleString('es-CL', { timeZone: 'America/Santiago' })}`
       personalizations: [
         {
           to: [{ email: recipientEmail, name: 'GFOUR SPA' }],
-          reply_to: { email: email, name: sanitizedName },
-          dkim_domain: 'gfourspa.cl',
-          dkim_selector: 'mailchannels',
-          dkim_private_key: context.env.DKIM_PRIVATE_KEY || ''
+          reply_to: { email: email, name: sanitizedName }
         }
       ],
       from: {
@@ -264,10 +260,7 @@ Fecha: ${new Date().toLocaleString('es-CL', { timeZone: 'America/Santiago' })}`
           type: 'text/html',
           value: htmlContent
         }
-      ],
-      headers: {
-        'X-MC-Domain': 'gfourspa.cl'
-      }
+      ]
     }
 
     // Enviar email usando MailChannels API
