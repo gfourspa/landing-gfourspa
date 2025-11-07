@@ -12,6 +12,7 @@ interface ContactFormData {
 
 interface Env {
   CONTACT_EMAIL?: string  // Email donde recibirás los mensajes
+  DKIM_PRIVATE_KEY?: string  // Clave privada DKIM (opcional, para mejor deliverability)
   NODE_ENV?: string
 }
 
@@ -237,12 +238,16 @@ Fecha: ${new Date().toLocaleString('es-CL', { timeZone: 'America/Santiago' })}`
 
     // Usar MailChannels API (gratuito para Cloudflare Workers/Pages)
     // Requiere SPF configurado: v=spf1 include:relay.mailchannels.net ~all
+    // Y registro TXT de Domain Lockdown: _mailchannels.gfourspa.cl
     // https://mailchannels.zendesk.com/hc/en-us/articles/4565898358413
     const emailPayload = {
       personalizations: [
         {
           to: [{ email: recipientEmail, name: 'GFOUR SPA' }],
-          reply_to: { email: email, name: sanitizedName }
+          reply_to: { email: email, name: sanitizedName },
+          dkim_domain: 'gfourspa.cl',
+          dkim_selector: 'mailchannels',
+          dkim_private_key: context.env.DKIM_PRIVATE_KEY || ''
         }
       ],
       from: {
@@ -259,7 +264,10 @@ Fecha: ${new Date().toLocaleString('es-CL', { timeZone: 'America/Santiago' })}`
           type: 'text/html',
           value: htmlContent
         }
-      ]
+      ],
+      headers: {
+        'X-MC-Domain': 'gfourspa.cl'
+      }
     }
 
     // Enviar email usando MailChannels API
