@@ -85,7 +85,15 @@ export async function onRequestPost(context: {
       body: formData
     })
 
-    const result = await web3formsResponse.json() as { success: boolean, message?: string }
+    let result: { success: boolean, message?: string }
+    const responseText = await web3formsResponse.text()
+    
+    try {
+      result = JSON.parse(responseText) as { success: boolean, message?: string }
+    } catch (parseError) {
+      console.error('Error parsing Web3Forms response:', responseText)
+      throw new Error(`Web3Forms returned invalid response: ${responseText}`)
+    }
 
     if (!web3formsResponse.ok || !result.success) {
       console.error('Web3Forms error:', result)
