@@ -110,6 +110,12 @@ export async function onRequestPost(context: {
 
   } catch (error) {
     console.error('Error enviando email:', error)
+    console.error('Environment variables:', {
+      hasAccessKey: !!context.env.WEB3FORMS_ACCESS_KEY,
+      hasContactEmail: !!context.env.CONTACT_EMAIL,
+      contactEmail: context.env.CONTACT_EMAIL,
+      nodeEnv: context.env.NODE_ENV
+    })
     
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
     
@@ -117,7 +123,12 @@ export async function onRequestPost(context: {
       JSON.stringify({ 
         success: false, 
         message: 'Error al enviar el mensaje. Por favor intenta nuevamente.',
-        error: context.env.NODE_ENV === 'development' ? errorMessage : undefined
+        error: errorMessage,
+        debug: {
+          hasAccessKey: !!context.env.WEB3FORMS_ACCESS_KEY,
+          hasContactEmail: !!context.env.CONTACT_EMAIL,
+          contactEmail: context.env.CONTACT_EMAIL
+        }
       }),
       {
         status: 500,
