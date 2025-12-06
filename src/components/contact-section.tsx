@@ -59,14 +59,12 @@ export function ContactSection() {
     setSubmitStatus(null)
     
     try {
-      // Obtener Access Key desde variable de entorno
       const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
       
       if (!accessKey) {
         throw new Error('Access Key no configurado')
       }
       
-      // Enviar directamente a Web3Forms API
       const web3FormsData = new FormData()
       web3FormsData.append('access_key', accessKey)
       web3FormsData.append('subject', `Nuevo mensaje de contacto de ${formData.name}`)
@@ -178,7 +176,11 @@ ${formData.message}
               </div>
             )}
             
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form 
+              className="space-y-6" 
+              onSubmit={handleSubmit}
+              data-h-captcha-site-key="50b2fe65-b00b-4b9e-ad62-3ba471098be2"
+            >
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label
@@ -277,14 +279,10 @@ ${formData.message}
                 ></textarea>
               </div>
 
-              {/* Campo oculto para hCaptcha - Web3Forms lo maneja automáticamente */}
-              <input type="hidden" name="botcheck" />
-
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full bg-gradient-primary text-white px-8 py-4 rounded-lg hover:shadow-glow transition-all duration-300 font-semibold flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
-                data-h-captcha-sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"
               >
                 Enviar Mensaje
                 <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
