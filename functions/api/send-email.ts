@@ -60,16 +60,11 @@ export async function onRequestPost(context: {
       )
     }
 
-    const recipientEmail = context.env.CONTACT_EMAIL
     const web3formsKey = context.env.WEB3FORMS_ACCESS_KEY
 
     if (!web3formsKey) {
       throw new Error('WEB3FORMS_ACCESS_KEY no configurada')
     }
-
-    // Log para debug - ver qué key se está usando
-    console.log('Access Key (primeros 8 chars):', web3formsKey.substring(0, 8))
-    console.log('Access Key (últimos 4 chars):', web3formsKey.substring(web3formsKey.length - 4))
 
     const formData = new FormData()
     formData.append('access_key', web3formsKey)
@@ -84,8 +79,6 @@ Mensaje:
 ${message}
     `.trim())
 
-    console.log('Enviando a Web3Forms...')
-
     const web3formsResponse = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: {
@@ -99,9 +92,10 @@ ${message}
 
     let result: { success: boolean, message?: string }
     const responseText = await web3formsResponse.text()
-    
-    console.log('Web3Forms response status:', web3formsResponse.status)
-    console.log('Web3Forms response:', responseText)
+    if (context.env.NODE_ENV !== 'production') {
+      console.log('Web3Forms response status:', web3formsResponse.status)
+      console.log('Web3Forms response:', responseText)
+    }
     
     try {
       result = JSON.parse(responseText) as { success: boolean, message?: string }
@@ -126,36 +120,34 @@ ${message}
         status: 200,
         headers: { 
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
+          'Access-Control-Allow-Origin': 'https://gfourspa.cl'
         }
       }
     )
 
   } catch (error) {
-    console.error('Error enviando email:', error)
-    console.error('Environment variables:', {
-      hasAccessKey: !!context.env.WEB3FORMS_ACCESS_KEY,
-      hasContactEmail: !!context.env.CONTACT_EMAIL,
-      contactEmail: context.env.CONTACT_EMAIL,
-      nodeEnv: context.env.NODE_ENV
-    })
-    
-    const errorMessage = error instanceof Error ? error.message : 'Error desconocido'
+    if (context.env.NODE_ENV !== 'production') {
+      console.error('Error enviando email:', error)
+      console.error('Environment variables:', {
+        hasAccessKey: !!context.env.WEB3FORMS_ACCESS_KEY,
+        hasContactEmail: !!context.env.CONTACT_EMAIL,
+        nodeEnv: context.env.NODE_ENV
+      })
+    } else {
+      console.error('Error enviando email')
+    }
     
     return new Response(
       JSON.stringify({ 
         success: false, 
-        message: 'Error al enviar el mensaje. Por favor intenta nuevamente.',
-        error: errorMessage,
-        debug: {
-          hasAccessKey: !!context.env.WEB3FORMS_ACCESS_KEY,
-          hasContactEmail: !!context.env.CONTACT_EMAIL,
-          contactEmail: context.env.CONTACT_EMAIL
-        }
+        message: 'Error al enviar el mensaje. Por favor intenta nuevamente.'
       }),
       {
         status: 500,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'https://gfourspa.cl'
+        }
       }
     )
   }
@@ -165,7 +157,7 @@ export async function onRequestOptions(): Promise<Response> {
   return new Response(null, {
     status: 204,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': 'https://gfourspa.cl',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type'
     }

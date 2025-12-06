@@ -1,6 +1,6 @@
 import { SERVICE_OPTIONS_FORM } from "@/lib/constant"
 import { Mail, MapPin, Send } from "lucide-react"
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 
 interface FormData {
   name: string
@@ -25,6 +25,40 @@ export function ContactSection() {
     message: string
   } | null>(null)
   
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    
+    if (urlParams.has('success')) {
+      setSubmitStatus({
+        success: true,
+        message: '¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto.'
+      })
+      
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        service: SERVICE_OPTIONS_FORM[0].value,
+        message: ""
+      })
+      
+      window.history.replaceState({}, '', window.location.pathname)
+      
+      // Auto-ocultar mensaje después de 5 segundos
+      setTimeout(() => {
+        setSubmitStatus(null)
+      }, 5000)
+    } else if (urlParams.has('error')) {
+      setSubmitStatus({
+        success: false,
+        message: 'Hubo un error al enviar el mensaje. Por favor intenta nuevamente.'
+      })
+      
+
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+  }, [])
+  
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -37,12 +71,19 @@ export function ContactSection() {
   
   const handleSubmit = (e: FormEvent) => {
     const form = e.target as HTMLFormElement
+    
     if (!form.checkValidity()) {
+      e.preventDefault()
+      setSubmitStatus({
+        success: false,
+        message: 'Por favor completa todos los campos requeridos (*)'
+      })
       return
     }
     
     setIsSubmitting(true)
     setSubmitStatus(null)
+    
   }
   
   return (
@@ -114,7 +155,7 @@ export function ContactSection() {
               {/* Campos hidden requeridos por Web3Forms */}
               <input type="hidden" name="access_key" value={import.meta.env.VITE_WEB3FORMS_ACCESS_KEY} />
               <input type="hidden" name="subject" value="Nuevo mensaje de contacto desde gfourspa.cl" />
-              <input type="hidden" name="redirect" value="https://gfourspa.cl" />
+              <input type="hidden" name="redirect" value="https://gfourspa.cl?success=true#contacto" />
               
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
