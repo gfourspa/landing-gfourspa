@@ -67,6 +67,10 @@ export async function onRequestPost(context: {
       throw new Error('WEB3FORMS_ACCESS_KEY no configurada')
     }
 
+    // Log para debug - ver qué key se está usando
+    console.log('Access Key (primeros 8 chars):', web3formsKey.substring(0, 8))
+    console.log('Access Key (últimos 4 chars):', web3formsKey.substring(web3formsKey.length - 4))
+
     const formData = new FormData()
     formData.append('access_key', web3formsKey)
     formData.append('subject', `Nuevo mensaje de contacto de ${name}`)
