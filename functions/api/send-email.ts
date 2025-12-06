@@ -70,15 +70,14 @@ export async function onRequestPost(context: {
     const formData = new FormData()
     formData.append('access_key', web3formsKey)
     formData.append('subject', `Nuevo mensaje de contacto de ${name}`)
-    formData.append('from_name', `${name} - Formulario GFOUR SPA`)
-    // Múltiples destinatarios separados por coma
-    formData.append('email', recipientEmail || 'noreply@gfourspa.cl')
-    formData.append('reply_to', email)
-    formData.append('name', name)
-    formData.append('user_email', email)
-    formData.append('company', company || 'No especificada')
-    formData.append('service', service || 'No especificado')
-    formData.append('message', message)
+    formData.append('from_name', name)
+    formData.append('email', email) // Email del usuario que envía el formulario
+    
+    // Información adicional del formulario como campos personalizados
+    formData.append('Nombre', name)
+    formData.append('Empresa', company || 'No especificada')
+    formData.append('Servicio', service || 'No especificado')
+    formData.append('Mensaje', message)
 
     const web3formsResponse = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
