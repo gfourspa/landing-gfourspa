@@ -110,7 +110,6 @@ export function ContactSection() {
               onSubmit={handleSubmit}
               action="https://api.web3forms.com/submit"
               method="POST"
-              data-h-captcha-site-key="50b2fe65-b00b-4b9e-ad62-3ba471098be2"
             >
               {/* Campos hidden requeridos por Web3Forms */}
               <input type="hidden" name="access_key" value={import.meta.env.VITE_WEB3FORMS_ACCESS_KEY} />
