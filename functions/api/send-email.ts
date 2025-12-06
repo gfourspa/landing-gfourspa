@@ -74,14 +74,15 @@ export async function onRequestPost(context: {
     const formData = new FormData()
     formData.append('access_key', web3formsKey)
     formData.append('subject', `Nuevo mensaje de contacto de ${name}`)
-    formData.append('from_name', name)
-    formData.append('email', email) // Email del usuario que envía el formulario
-    
-    // Información adicional del formulario como campos personalizados
-    formData.append('Nombre', name)
-    formData.append('Empresa', company || 'No especificada')
-    formData.append('Servicio', service || 'No especificado')
-    formData.append('Mensaje', message)
+    formData.append('name', name)
+    formData.append('email', email)
+    formData.append('message', `
+Empresa: ${company || 'No especificada'}
+Servicio: ${service || 'No especificado'}
+
+Mensaje:
+${message}
+    `.trim())
 
     const web3formsResponse = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
@@ -91,6 +92,9 @@ export async function onRequestPost(context: {
     let result: { success: boolean, message?: string }
     const responseText = await web3formsResponse.text()
     
+    console.log('Web3Forms response status:', web3formsResponse.status)
+    console.log('Web3Forms response:', responseText)
+    
     try {
       result = JSON.parse(responseText) as { success: boolean, message?: string }
     } catch (parseError) {
@@ -99,7 +103,7 @@ export async function onRequestPost(context: {
     }
 
     if (!web3formsResponse.ok || !result.success) {
-      console.error('Web3Forms error:', result)
+      console.error('Web3Forms full error:', JSON.stringify(result))
       throw new Error(`Web3Forms API error: ${result.message || 'Unknown error'}`)
     }
 
