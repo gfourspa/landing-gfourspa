@@ -35,85 +35,14 @@ export function ContactSection() {
     }))
   }
   
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
-    
-    if (!formData.name || !formData.email || !formData.message) {
-      setSubmitStatus({
-        success: false,
-        message: "Por favor completa todos los campos requeridos (*)"
-      })
-      return
-    }
-    
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(formData.email)) {
-      setSubmitStatus({
-        success: false,
-        message: "Por favor ingresa un email válido"
-      })
+  const handleSubmit = (e: FormEvent) => {
+    const form = e.target as HTMLFormElement
+    if (!form.checkValidity()) {
       return
     }
     
     setIsSubmitting(true)
     setSubmitStatus(null)
-    
-    try {
-      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
-      
-      if (!accessKey) {
-        throw new Error('Access Key no configurado')
-      }
-      
-      const web3FormsData = new FormData()
-      web3FormsData.append('access_key', accessKey)
-      web3FormsData.append('subject', `Nuevo mensaje de contacto de ${formData.name}`)
-      web3FormsData.append('name', formData.name)
-      web3FormsData.append('email', formData.email)
-      web3FormsData.append('message', `
-Empresa: ${formData.company || 'No especificada'}
-Servicio: ${formData.service || 'No especificado'}
-
-Mensaje:
-${formData.message}
-      `.trim())
-      
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: web3FormsData
-      })
-      
-      const data = await response.json()
-      
-      if (response.ok && data.success) {
-        setSubmitStatus({
-          success: true,
-          message: "¡Mensaje enviado con éxito! Nos pondremos en contacto contigo pronto."
-        })
-        
-        setFormData({
-          name: "",
-          email: "",
-          company: "",
-          service: SERVICE_OPTIONS_FORM[0].value,
-          message: ""
-        })
-        
-        setTimeout(() => {
-          setSubmitStatus(null)
-        }, 5000)
-      } else {
-        throw new Error(data.message || 'Error al enviar el mensaje')
-      }
-    } catch (error) {
-      console.error("Error al enviar email:", error)
-      setSubmitStatus({
-        success: false,
-        message: "No se pudo enviar tu mensaje. Por favor intenta nuevamente más tarde."
-      })
-    } finally {
-      setIsSubmitting(false)
-    }
   }
   
   return (
@@ -179,8 +108,15 @@ ${formData.message}
             <form 
               className="space-y-6" 
               onSubmit={handleSubmit}
+              action="https://api.web3forms.com/submit"
+              method="POST"
               data-h-captcha-site-key="50b2fe65-b00b-4b9e-ad62-3ba471098be2"
             >
+              {/* Campos hidden requeridos por Web3Forms */}
+              <input type="hidden" name="access_key" value={import.meta.env.VITE_WEB3FORMS_ACCESS_KEY} />
+              <input type="hidden" name="subject" value="Nuevo mensaje de contacto desde gfourspa.cl" />
+              <input type="hidden" name="redirect" value="https://gfourspa.cl" />
+              
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label
