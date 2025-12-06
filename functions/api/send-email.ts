@@ -84,8 +84,16 @@ Mensaje:
 ${message}
     `.trim())
 
+    console.log('Enviando a Web3Forms...')
+
     const web3formsResponse = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept': 'application/json',
+        'Origin': 'https://gfourspa.cl',
+        'Referer': 'https://gfourspa.cl/'
+      },
       body: formData
     })
 
